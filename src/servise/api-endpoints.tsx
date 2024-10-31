@@ -1,5 +1,5 @@
 import { Todo } from "../App";
-const apiUrl = "https://reactexambackend.onrender.com/missions";
+const apiUrl = `https://reactexambackend.onrender.com/missions`;
 
 export const getMission = async (apiKey: string): Promise<Todo[]> => {
   const response = await fetch(`${apiUrl}/${apiKey}`);
@@ -12,16 +12,22 @@ export const getMission = async (apiKey: string): Promise<Todo[]> => {
 export const addMission = async (
   apiKey: string,
   mission: Todo
-):Promise<Todo>=> {
+): Promise<Todo> => {
   const res = await fetch(`${apiUrl}/${apiKey}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(mission),
   });
   if (!res.ok) {
-    throw new Error("failed to post");
+    const errorData = await res.json();
+    console.error("Error response:", errorData);
+    throw new Error(`Failed to post: ${errorData.message || "Unknown error"}`);
+    // throw new Error("failed to post");
   }
-  return res.json();
+  const data = await res.json();
+  console.log(data);
+
+  return data;
 };
 export const deleteMission = async (
   apikey: string,
@@ -33,13 +39,17 @@ export const deleteMission = async (
   if (!res.ok) {
     throw new Error("failed to delete");
   }
+  console.log(id);
 };
 export const updateMissionStatus = async (
   apikey: string,
   id: string
-): Promise<void> => {
+): Promise<Todo> => {
   const response = await fetch(`${apiUrl}/${apikey}/progress/${id}`, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
   });
   if (!response.ok) throw new Error("Failed to update mission status");
+  console.log(id);
+  return response.json();
 };

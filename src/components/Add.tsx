@@ -1,23 +1,46 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Todo } from "../App";
+import { addMission } from "../servise/api-endpoints";
 interface Props {
   setTodo: (x: (todos: Todo[]) => Todo[]) => void;
+  apikey: string;
 }
 const Add = ({ setTodo }: Props) => {
   const [soldierName, setName] = useState("");
   const [soldierPiority, setPoirity] = useState("");
   const [soldierStatus, setStatus] = useState("");
   const [soldierDescription, setDescription] = useState("");
-  const addTodo = async () => {};
+  const addTodo = async ({ apikey }: Props) => {
+    // if (!soldierName || !soldierPiority || !soldierStatus) {
+    //   alert("All fields are required");
+    //   return;
+    // }
+    try {
+      const newMission = await addMission(apikey, {
+        name: soldierName,
+        description: soldierDescription,
+        priority: soldierPiority,
+        status: soldierStatus,
+      });
+      setTodo((todos) => [...todos, newMission]);
+      setName("");
+      setPoirity("");
+      setDescription("");
+      setStatus("");
+    } catch (error) {
+      alert("Failed to add mission");
+      console.error(error);
+    }
+  };
   return (
-    <div>
+    <div className="form">
       <input
         type="text"
         placeholder="type name"
         onChange={(e) => setName(e.target.value)}
         value={soldierName}
       />
-     
+
       <input
         type="text"
         placeholder="type description"
@@ -40,11 +63,11 @@ const Add = ({ setTodo }: Props) => {
         onChange={(e) => setStatus(e.target.value)}
         value={soldierStatus}
       >
-        <option value="pending">pending</option>
-        <option value="in progres">in progres</option>
-        <option value="completed">completed</option>
+        <option value="Pending">pending</option>
+        <option value="In progres">in progres</option>
+        <option value="Completed">completed</option>
       </select>
-      <button onClick={addTodo}>Add Todo</button>
+      <button onClick={() => addTodo}>Add Todo</button>
     </div>
   );
 };

@@ -12,7 +12,7 @@ export const getMission = async (apiKey: string): Promise<Todo[]> => {
 export const addMission = async (
   apiKey: string,
   mission: Todo
-): Promise<void> => {
+):Promise<Todo>=> {
   const res = await fetch(`${apiUrl}/${apiKey}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -21,6 +21,7 @@ export const addMission = async (
   if (!res.ok) {
     throw new Error("failed to post");
   }
+  return res.json();
 };
 export const deleteMission = async (
   apikey: string,

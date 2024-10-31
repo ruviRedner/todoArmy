@@ -15,3 +15,35 @@
 h1{
   text-align: center;
 }
+.app{
+  
+    background-color: #fff;
+    height: 100%;
+    width: 80%;
+    /* max-width: 460px; */
+    margin: 0 auto;
+    padding: 1.5em;
+  
+}
+.form{
+  background-color: green;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+}
+.form button{
+  width: 20%;
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  border-bottom: 1px solid #fff;
+}
+.add button, .item button {
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+

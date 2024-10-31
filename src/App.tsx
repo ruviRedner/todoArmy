@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Add from './components/Add'
 import List from './components/List'
 export interface Todo{
-  id:string
+  _id?:string
   name:string
   status:string
   priority:string
